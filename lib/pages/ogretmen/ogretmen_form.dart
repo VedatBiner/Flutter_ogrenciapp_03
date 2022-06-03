@@ -34,111 +34,113 @@ class _OgretmenFormState extends ConsumerState<OgretmenForm>
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ScaleTransition(
-                  scale: controller,
-                  child: const Icon(
-                    Icons.person,
-                    size: 150,
-                  ),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    label: Text("Ad"),
-                  ),
-                  validator: (value) {
-                    if (value?.isNotEmpty != true) {
-                      return "Ad girmeniz gerekli";
-                    }
-                  },
-                  onSaved: (newValue) {
-                    girilen["ad"] = newValue;
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    label: Text("Soyad"),
-                  ),
-                  validator: (value) {
-                    if (value?.isNotEmpty != true) {
-                      return "Soyad girmeniz gerekli";
-                    }
-                  },
-                  onSaved: (newValue) {
-                    girilen["soyad"] = newValue;
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    label: Text("Yaş"),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isNotEmpty != true) {
-                      return "Yaş girmeniz gerekli";
-                    }
-                    if (int.tryParse(value) == null) {
-                      return "Rakamlarla yaş girmeniz gerekli !!!";
-                    }
-                    return null; // burası olacak mı ?
-                  },
-                  keyboardType: TextInputType.number,
-                  onSaved: (newValue) {
-                    girilen["yas"] = int.parse(newValue!);
-                  },
-                  onChanged: (value) {
-                    final v = double.parse(value);
-                    controller.animateTo(
-                      v / 100,
-                      duration: const Duration(seconds: 1),
-                    );
-                  },
-                ),
-                DropdownButtonFormField(
-                  items: const [
-                    DropdownMenuItem(
-                      value: "Erkek",
-                      child: Text("Erkek"),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ScaleTransition(
+                    scale: controller,
+                    child: const Icon(
+                      Icons.person,
+                      size: 150,
                     ),
-                    DropdownMenuItem(
-                      value: "Kadın",
-                      child: Text("Kadın"),
-                    )
-                  ],
-                  value: girilen["cinsiyet"],
-                  onChanged: (value) {
-                    setState(() {
-                      girilen["cinsiyet"] = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null) {
-                      return " Lütfen cinsiyet seçiniz";
-                    }
-                    return null; // Burası olmalı mı ?
-                  },
-                ),
-                isSaving
-                    ? const Center(child: CircularProgressIndicator())
-                    : AlignTransition(
-                        alignment: alignmentTween.animate(controller),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              final formState = _formKey.currentState;
-                              if (formState == null) return;
-                              if (formState.validate() == true) {
-                                formState.save();
-                                print(girilen);
-                              }
-                              _kaydet();
-                            },
-                            child: const Text("Kaydet")),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      label: Text("Ad"),
+                    ),
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return "Ad girmeniz gerekli";
+                      }
+                    },
+                    onSaved: (newValue) {
+                      girilen["ad"] = newValue;
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      label: Text("Soyad"),
+                    ),
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return "Soyad girmeniz gerekli";
+                      }
+                    },
+                    onSaved: (newValue) {
+                      girilen["soyad"] = newValue;
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      label: Text("Yaş"),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isNotEmpty != true) {
+                        return "Yaş girmeniz gerekli";
+                      }
+                      if (int.tryParse(value) == null) {
+                        return "Rakamlarla yaş girmeniz gerekli !!!";
+                      }
+                      return null; // burası olacak mı ?
+                    },
+                    keyboardType: TextInputType.number,
+                    onSaved: (newValue) {
+                      girilen["yas"] = int.parse(newValue!);
+                    },
+                    onChanged: (value) {
+                      final v = double.parse(value);
+                      controller.animateTo(
+                        v / 100,
+                        duration: const Duration(seconds: 1),
+                      );
+                    },
+                  ),
+                  DropdownButtonFormField(
+                    items: const [
+                      DropdownMenuItem(
+                        value: "Erkek",
+                        child: Text("Erkek"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Kadın",
+                        child: Text("Kadın"),
                       )
-              ],
+                    ],
+                    value: girilen["cinsiyet"],
+                    onChanged: (value) {
+                      setState(() {
+                        girilen["cinsiyet"] = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return " Lütfen cinsiyet seçiniz";
+                      }
+                      return null; // Burası olmalı mı ?
+                    },
+                  ),
+                  isSaving
+                      ? const Center(child: CircularProgressIndicator())
+                      : AlignTransition(
+                          alignment: alignmentTween.animate(controller),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                final formState = _formKey.currentState;
+                                if (formState == null) return;
+                                if (formState.validate() == true) {
+                                  formState.save();
+                                  print(girilen);
+                                }
+                                _kaydet();
+                              },
+                              child: const Text("Kaydet")),
+                        )
+                ],
+              ),
             ),
           ),
         ),
