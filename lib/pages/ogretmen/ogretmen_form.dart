@@ -27,6 +27,7 @@ class _OgretmenFormState extends ConsumerState<OgretmenForm>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         title: const Text("Yeni Öğretmen"),
       ),
